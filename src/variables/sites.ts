@@ -37,34 +37,27 @@ export const sites: Site[] = [
     },
     {
         id: 5,
-        name: 'Orya',
-        url: 'https://oryaatelier.com',
-        timeout: 5000,
-        retries: 2
-    },
-    {
-        id: 6,
         name: 'subscription',
         url: 'https://api.flixnext.com.br/manager',
         timeout: 5000,
         retries: 2
     },
     {
-        id: 7,
+        id: 6,
         name: 'mensageria',
         url: 'https://api.flixnext.com.br/mensageria',
         timeout: 5000,
         retries: 2
     },
     {
-        id: 8,
+        id: 7,
         name: 'content',
         url: 'https://api.flixnext.com.br/content',
         timeout: 5000,
         retries: 2
     },
     {
-        id: 9,
+        id: 8,
         name: 'userManager',
         url: 'https://api.flixnext.com.br/backend/acordar',
         timeout: 5000,

@@ -129,6 +129,59 @@ export class MonitorService {
         }
     }
 
+    private async checkWordPress(url: string): Promise<WPCheckResult> {
+        const signals: string[] = []
+
+        try {
+            const res = await axios.get(url, {
+                timeout: 5000,
+                validateStatus: () => true
+            })
+            const html = res.data as string
+
+            if (html.includes('wp-content')) signals.push('wp-content')
+            if (html.includes('wp-includes')) signals.push('wp-includes')
+
+            try {
+                const wpJson = await axios.get(`${url}/wp-json`, {
+                    timeout: 3000,
+                    validateStatus: () => true
+                })
+
+                if (wpJson.status === 200) {
+                    signals.push('wp-json')
+                }
+            } catch { }
+
+
+            try {
+                const login = await axios.get(`${url}/wp-login.php`, {
+                    timeout: 3000,
+                    validateStatus: () => true
+                })
+
+                if ([200, 302].includes(login.status)) {
+                    signals.push('wp-login')
+                }
+            } catch { }
+            const headers = res.headers
+
+            if (headers['x-powered-by']?.toLowerCase().includes('wordpress')) {
+                signals.push('headers')
+            }
+            return {
+                isWordPress: signals.length >= 2,
+                signals
+            }
+
+        } catch {
+            return {
+                isWordPress: false,
+                signals: []
+            }
+        }
+    }
+
     private async checkSSL(host: string): Promise<boolean> {
         return new Promise(resolve => {
             const socket: tls.TLSSocket = tls.connect(
@@ -196,56 +249,5 @@ export class MonitorService {
         }
     }
 
-    private async checkWordPress(url: string): Promise<WPCheckResult> {
-        const signals: string[] = []
 
-        try {
-            const res = await axios.get(url, {
-                timeout: 5000,
-                validateStatus: () => true
-            })
-            const html = res.data as string
-
-            if (html.includes('wp-content')) signals.push('wp-content')
-            if (html.includes('wp-includes')) signals.push('wp-includes')
-
-            try {
-                const wpJson = await axios.get(`${url}/wp-json`, {
-                    timeout: 3000,
-                    validateStatus: () => true
-                })
-
-                if (wpJson.status === 200) {
-                    signals.push('wp-json')
-                }
-            } catch { }
-
-
-            try {
-                const login = await axios.get(`${url}/wp-login.php`, {
-                    timeout: 3000,
-                    validateStatus: () => true
-                })
-
-                if ([200, 302].includes(login.status)) {
-                    signals.push('wp-login')
-                }
-            } catch { }
-            const headers = res.headers
-
-            if (headers['x-powered-by']?.toLowerCase().includes('wordpress')) {
-                signals.push('headers')
-            }
-            return {
-                isWordPress: signals.length >= 2,
-                signals
-            }
-
-        } catch {
-            return {
-                isWordPress: false,
-                signals: []
-            }
-        }
-    }
 }
