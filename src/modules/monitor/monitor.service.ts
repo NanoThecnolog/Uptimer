@@ -62,11 +62,14 @@ export class MonitorService {
             if (result.isOnline) return
             attempt++
             if (attempt > site.retries) {
-                await this.notify(site, result)
-                return
+                if (!result.dnsResolved && !result.sslValid) {
+                    await this.notify(site, result)
+                    return
+                }
+
             }
             const delay = this.getBackoff(attempt)
-            await this.sleep(2000)
+            await this.sleep(delay)
         }
     }
 
