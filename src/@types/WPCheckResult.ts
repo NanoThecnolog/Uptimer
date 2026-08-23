@@ -1,4 +1,4 @@
 export interface WPCheckResult {
-    isWordPress: boolean
-    signals: string[]
+  isWordPress: boolean;
+  signals: string[];
 }

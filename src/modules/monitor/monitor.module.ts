@@ -4,6 +4,6 @@ import { MonitorService } from './monitor.service';
 
 @Module({
   controllers: [MonitorController],
-  providers: [MonitorService]
+  providers: [MonitorService],
 })
 export class MonitorModule {}
