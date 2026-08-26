@@ -22,13 +22,13 @@ export const sites: Site[] = [
     timeout: 5000,
     retries: 2,
   },
-  {
+  /*{
     id: 3,
     name: 'Engemarco',
     url: 'https://engemarcosolucoes.com/api/hello',
     timeout: 5000,
     retries: 2,
-  },
+  },*/
   {
     id: 4,
     name: 'WSADV',
@@ -62,6 +62,20 @@ export const sites: Site[] = [
     id: 8,
     name: 'userManager',
     url: 'https://api.flixnext.com.br/backend/acordar',
+    timeout: 5000,
+    retries: 2,
+  },
+  {
+    id: 9,
+    name: 'avivavacation',
+    url: 'https://www.avivavacationclube.com.br/',
+    timeout: 5000,
+    retries: 2,
+  },
+  {
+    id: 10,
+    name: 'clubbancorbras',
+    url: 'https://www.clubbancorbras.com.br/',
     timeout: 5000,
     retries: 2,
   },
